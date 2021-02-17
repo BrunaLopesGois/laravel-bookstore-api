@@ -21,4 +21,27 @@ class BooksController extends Controller
 
         return response()->json($book);
     }
+
+    public function store(Request $request, BookRepositoryEloquent $repository)
+    {
+        $request->validate([
+            'title' => 'required|min:3|max:255',
+            'genre' => 'required',
+            'description' => 'required',
+            'sale_price' => 'required'
+        ]);
+        $cover = null;
+        if ($request->hasFile('cover')) {
+            $cover = $request->file('cover')->store('book');
+        }
+        $created = $repository->create(
+            $request->title,
+            $cover,
+            $request->genre,
+            $request->description,
+            $request->sale_price
+        );
+
+        return $created;
+    }
 }

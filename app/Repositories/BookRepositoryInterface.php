@@ -6,4 +6,5 @@ interface BookRepositoryInterface
 {
     public function findAll();
     public function findById($id);
+    public function create($title, $cover, $genre, $description, $salePrice);
 }

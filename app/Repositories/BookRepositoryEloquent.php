@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Book;
+use Illuminate\Support\Facades\DB;
 
 class BookRepositoryEloquent implements BookRepositoryInterface
 {
@@ -21,5 +22,20 @@ class BookRepositoryEloquent implements BookRepositoryInterface
     public function findById($id)
     {
         return $this->model->query()->find($id);
+    }
+
+    public function create($title, $cover, $genre, $description, $salePrice)
+    {
+        DB::beginTransaction();
+        Book::create([
+            'title' => $title,
+            'cover' => $cover,
+            'genre' => $genre,
+            'description' => $description,
+            'sale_price' => $salePrice
+        ]);
+        DB::commit();
+
+        return true;
     }
 }
