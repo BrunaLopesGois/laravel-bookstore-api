@@ -21,7 +21,7 @@ class BookRepositoryEloquent implements BookRepositoryInterface
 
     public function findById($id)
     {
-        return $this->model->query()->find($id);
+        return $this->model->find($id);
     }
 
     public function create($title, $cover, $genre, $description, $salePrice)
@@ -35,6 +35,16 @@ class BookRepositoryEloquent implements BookRepositoryInterface
             'sale_price' => $salePrice
         ]);
         DB::commit();
+
+        return true;
+    }
+
+    public function delete($id)
+    {
+        DB::transaction(function () use ($id) {
+            $book = Book::find($id);
+            $book->delete();
+        });
 
         return true;
     }

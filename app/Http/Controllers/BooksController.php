@@ -15,9 +15,9 @@ class BooksController extends Controller
         return response()->json($books);
     }
 
-    public function bookDetail(Request $request, BookRepositoryEloquent $repository)
+    public function bookDetail(int $id, BookRepositoryEloquent $repository)
     {
-        $book = $repository->findById($request->id);
+        $book = $repository->findById($id);
 
         return response()->json($book);
     }
@@ -43,5 +43,12 @@ class BooksController extends Controller
         );
 
         return $created;
+    }
+
+    public function destroy(int $id, BookRepositoryEloquent $repository)
+    {
+        $deleted = $repository->delete($id);
+
+        return $deleted;
     }
 }
