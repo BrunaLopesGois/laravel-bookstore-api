@@ -48,4 +48,17 @@ class BookRepositoryEloquent implements BookRepositoryInterface
 
         return true;
     }
+
+    public function update($id, $title, $cover, $genre, $description, $salePrice)
+    {
+        $book = Book::find($id);
+        $title ? $book->title = $title : '';
+        $cover ? $book->cover = $cover : '';
+        $genre ? $book->genre = $genre : '';
+        $description ? $book->description = $description : '';
+        $salePrice ? $book->sale_price = $salePrice : '';
+        $book->save();
+
+        return true;
+    }
 }

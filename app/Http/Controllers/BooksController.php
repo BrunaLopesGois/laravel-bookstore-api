@@ -51,4 +51,18 @@ class BooksController extends Controller
 
         return $deleted;
     }
+
+    public function update(int $id, Request $request, BookRepositoryEloquent $repository)
+    {
+        $updated = $repository->update(
+            $id,
+            $request->title,
+            $request->cover,
+            $request->genre,
+            $request->description,
+            $request->sale_price
+        );
+
+        return $updated;
+    }
 }
