@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BooksController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,4 @@ Route::get('/book/{id}', [BooksController::class, 'bookDetail']);
 Route::post('/create-book', [BooksController::class, 'store']);
 Route::delete('/delete-book/{id}', [BooksController::class, 'destroy']);
 Route::put('/change-book/{id}', [BooksController::class, 'update']);
+Route::post('/checkout/{id}', [CheckoutController::class, 'checkout']);
