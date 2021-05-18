@@ -6,7 +6,7 @@ use App\Book;
 use App\Repositories\BookRepositoryEloquent;
 use Illuminate\Http\Request;
 
-class BooksController extends Controller
+class BookController extends Controller
 {
     public function index(BookRepositoryEloquent $repository)
     {
@@ -15,7 +15,7 @@ class BooksController extends Controller
         return response()->json($books);
     }
 
-    public function bookDetail(int $id, BookRepositoryEloquent $repository)
+    public function show(int $id, BookRepositoryEloquent $repository)
     {
         $book = $repository->findById($id);
 

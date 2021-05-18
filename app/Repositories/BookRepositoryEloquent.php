@@ -9,9 +9,9 @@ class BookRepositoryEloquent implements BookRepositoryInterface
 {
     private $model;
 
-    public function __construct(Book $model)
+    public function __construct()
     {
-        $this->model = $model;
+        $this->model = new Book();
     }
 
     public function findAll()
