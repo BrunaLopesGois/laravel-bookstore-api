@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\BooksController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CheckoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/books', [BooksController::class, 'index']);
-Route::get('/book/{id}', [BooksController::class, 'bookDetail']);
-Route::post('/create-book', [BooksController::class, 'store']);
-Route::delete('/delete-book/{id}', [BooksController::class, 'destroy']);
-Route::put('/change-book/{id}', [BooksController::class, 'update']);
+Route::prefix('/books')->group(function () {
+    Route::get('/', [BookController::class, 'index']);
+    Route::get('/{id}', [BookController::class, 'show']);
+    Route::post('/', [BookController::class, 'store']);
+    Route::delete('/{id}', [BookController::class, 'destroy']);
+    Route::put('/{id}', [BookController::class, 'update']);
+});
+
 Route::post('/checkout/{id}', [CheckoutController::class, 'checkout']);

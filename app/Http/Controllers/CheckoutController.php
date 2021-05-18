@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Book;
+use App\Repositories\BookRepositoryEloquent;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -10,16 +10,17 @@ class CheckoutController extends Controller
     public function checkout(int $id, Request $request)
     {
         $request->validate([
-            'numero_do_cartao' => 'required|numeric',
-            'nome_do_titular' => 'required|min:3|max:255',
-            'data_de_expiracao' => 'required',
+            'card_number' => 'required|numeric',
+            'owner_name' => 'required|min:3|max:255',
+            'expiration_date' => 'required',
             'cvv' => 'required|min:3|max:3'
         ]);
 
-        $book = Book::find($id);
+        $repository = new BookRepositoryEloquent();
+        $book = $repository->findById($id);
 
         $message = "Compra do livro $book->title realizada com sucesso";
 
-        return $message;
+        return response()->json($message);
     }
 }
