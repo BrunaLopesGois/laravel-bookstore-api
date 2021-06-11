@@ -16,7 +16,7 @@ class BookRepositoryEloquent implements BookRepositoryInterface
 
     public function findAll()
     {
-        return $this->model->query()->OrderBy('title')->get();
+        return $this->model->query()->OrderBy('title')->paginate(10);
     }
 
     public function findById($id)
@@ -27,7 +27,7 @@ class BookRepositoryEloquent implements BookRepositoryInterface
     public function create($title, $cover, $genre, $description, $salePrice)
     {
         DB::beginTransaction();
-        Book::create([
+        $book = Book::create([
             'title' => $title,
             'cover' => $cover,
             'genre' => $genre,
@@ -36,29 +36,41 @@ class BookRepositoryEloquent implements BookRepositoryInterface
         ]);
         DB::commit();
 
-        return true;
+        return $book;
     }
 
     public function delete($id)
     {
-        DB::transaction(function () use ($id) {
-            $book = Book::find($id);
-            $book->delete();
-        });
+        $booksRemoved = Book::destroy($id);
 
-        return true;
+        if ($booksRemoved === 0) {
+            return [
+                'message' => 'Not Found',
+                'statusCode' => 404
+            ];
+        }
+
+        return [
+            'message' => '',
+            'statusCode' => 204
+        ];
     }
 
     public function update($id, $title, $cover, $genre, $description, $salePrice)
     {
         $book = Book::find($id);
-        $title ? $book->title = $title : '';
-        $cover ? $book->cover = $cover : '';
-        $genre ? $book->genre = $genre : '';
-        $description ? $book->description = $description : '';
-        $salePrice ? $book->sale_price = $salePrice : '';
+
+        if (is_null($book)) {
+            return null;
+        }
+
+        $book->title = $title;
+        $book->cover = $cover;
+        $book->genre = $genre;
+        $book->description = $description;
+        $book->sale_price = $salePrice;
         $book->save();
 
-        return true;
+        return $book;
     }
 }

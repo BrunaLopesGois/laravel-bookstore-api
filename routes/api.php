@@ -28,4 +28,4 @@ Route::prefix('/books')->group(function () {
     Route::put('/{id}', [BookController::class, 'update']);
 });
 
-Route::post('/checkout/{id}', [CheckoutController::class, 'checkout']);
+Route::post('/checkout/books/{id}', [CheckoutController::class, 'checkout']);

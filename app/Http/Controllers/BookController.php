@@ -19,6 +19,10 @@ class BookController extends Controller
     {
         $book = $repository->findById($id);
 
+        if (is_null($book)) {
+            return response()->json('', 204);
+        }
+
         return response()->json($book);
     }
 
@@ -34,7 +38,7 @@ class BookController extends Controller
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover')->store('book');
         }
-        $created = $repository->create(
+        $book = $repository->create(
             $request->title,
             $cover,
             $request->genre,
@@ -42,19 +46,27 @@ class BookController extends Controller
             $request->sale_price
         );
 
-        return $created;
+        return response()->json($book);
     }
 
     public function destroy(int $id, BookRepositoryEloquent $repository)
     {
-        $deleted = $repository->delete($id);
+        $response = $repository->delete($id);
 
-        return $deleted;
+        return response()->json($response['message'], $response['statusCode']);
     }
 
     public function update(int $id, Request $request, BookRepositoryEloquent $repository)
     {
-        $updated = $repository->update(
+        $request->validate([
+            'title' => 'required|min:3|max:255',
+            'cover' => 'required',
+            'genre' => 'required',
+            'description' => 'required',
+            'sale_price' => 'required'
+        ]);
+
+        $book = $repository->update(
             $id,
             $request->title,
             $request->cover,
@@ -63,6 +75,10 @@ class BookController extends Controller
             $request->sale_price
         );
 
-        return $updated;
+        if (is_null($book)) {
+            return response()->json('Not Found', 404);
+        }
+
+        return $book;
     }
 }
