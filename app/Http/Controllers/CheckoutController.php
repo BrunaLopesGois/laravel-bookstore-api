@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\CheckoutMail;
 use App\Repositories\BookRepositoryEloquent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\CheckoutMail;
 
 class CheckoutController extends Controller
 {
