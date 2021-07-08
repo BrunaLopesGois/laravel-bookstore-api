@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMailJob;
 use App\Repositories\BookRepositoryEloquent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\CheckoutMail;
 
 class CheckoutController extends Controller
@@ -25,12 +25,13 @@ class CheckoutController extends Controller
             return response()->json('Livro não encontrado', 404);
         }
 
+        $sendTo = env('SEND_MAIL_ADDRESS');
         $mailContent = [
             'title' => 'Compra realizada com sucesso',
             'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
         ];
 
-        Mail::to('mariarobo0101@gmail.com')->send(new CheckoutMail($mailContent));
+        SendMailJob::dispatch($sendTo, $mailContent);
 
         return response()->json('', 202);
     }
