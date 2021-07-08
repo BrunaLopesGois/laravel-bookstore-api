@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CheckoutMail;
 use App\Repositories\BookRepositoryEloquent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -23,8 +25,13 @@ class CheckoutController extends Controller
             return response()->json('Livro não encontrado', 404);
         }
 
-        $message = "Compra do livro $book->title realizada com sucesso";
+        $mailContent = [
+            'title' => 'Compra realizada com sucesso',
+            'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
+        ];
 
-        return response()->json($message, 202);
+        Mail::to('mariarobo0101@gmail.com')->send(new CheckoutMail($mailContent));
+
+        return response()->json('', 202);
     }
 }
