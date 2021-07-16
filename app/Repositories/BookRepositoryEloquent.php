@@ -16,7 +16,7 @@ class BookRepositoryEloquent implements BookRepositoryInterface
 
     public function findAll()
     {
-        return $this->model->query()->OrderBy('title')->get();
+        return $this->model->query()->OrderBy('title')->paginate();
     }
 
     public function findById($id)
