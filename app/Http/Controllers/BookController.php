@@ -35,8 +35,8 @@ class BookController extends Controller
             'sale_price' => 'required'
         ]);
         $cover = null;
-        if ($request->hasFile('cover')) {
-            $cover = $request->file('cover')->store('book');
+        if ($request->hasFile('image')) {
+            $cover = $request->file('image')->storeAs('/storage/book', $request->file('image')->getClientOriginalName());
         }
         $book = $repository->create(
             $request->title,
