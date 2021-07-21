@@ -60,16 +60,20 @@ class BookController extends Controller
     {
         $request->validate([
             'title' => 'required|min:3|max:255',
-            'cover' => 'required',
             'genre' => 'required',
             'description' => 'required',
             'sale_price' => 'required'
         ]);
 
+        $cover = null;
+        if ($request->hasFile('image')) {
+            $cover = $request->file('image')->storeAs('/storage/book', $request->file('image')->getClientOriginalName());
+        }
+
         $book = $repository->update(
             $id,
             $request->title,
-            $request->cover,
+            $cover,
             $request->genre,
             $request->description,
             $request->sale_price
