@@ -12,7 +12,7 @@ class CheckoutController extends Controller
     public function checkout(int $id, Request $request)
     {
         $request->validate([
-            'card_number' => 'required|numeric',
+            'card_number' => 'required',
             'owner_name' => 'required|min:3|max:255',
             'expiration_date' => 'required',
             'cvv' => 'required|min:3|max:3'
