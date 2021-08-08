@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CheckoutController;
 use Illuminate\Http\Request;
@@ -20,12 +21,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/books')->group(function () {
-    Route::get('/', [BookController::class, 'index']);
-    Route::get('/{id}', [BookController::class, 'show']);
-    Route::post('/', [BookController::class, 'store']);
-    Route::delete('/{id}', [BookController::class, 'destroy']);
-    Route::put('/{id}', [BookController::class, 'update']);
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::prefix('/books')->group(function () {
+        Route::get('/', [BookController::class, 'index']);
+        Route::get('/{id}', [BookController::class, 'show']);
+        Route::post('/', [BookController::class, 'store']);
+        Route::delete('/{id}', [BookController::class, 'destroy']);
+        Route::put('/{id}', [BookController::class, 'update']);
+    });
+    Route::post('/checkout/books/{id}', [CheckoutController::class, 'checkout']);
 });
 
-Route::post('/checkout/books/{id}', [CheckoutController::class, 'checkout']);
+Route::post('/login', [AuthController::class, 'signOn']);
