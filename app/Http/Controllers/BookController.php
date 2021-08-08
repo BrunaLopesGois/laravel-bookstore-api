@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index(BookRepositoryEloquent $repository)
+    public function index(Request $request, BookRepositoryEloquent $repository)
     {
-        $books = $repository->findAll();
+        $books = $repository->findAll($request->query('search'));
 
         return response()->json($books);
     }

@@ -14,8 +14,15 @@ class BookRepositoryEloquent implements BookRepositoryInterface
         $this->model = new Book();
     }
 
-    public function findAll()
+    public function findAll($search)
     {
+        if ($search) {
+            return $this->model
+                ->query()
+                ->where('title', 'LIKE', "%{$search}%")
+                ->get();
+        }
+
         return $this->model->query()->OrderBy('title')->paginate(12);
     }
 
