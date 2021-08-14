@@ -2,11 +2,7 @@
 
 namespace App\Providers;
 
-use App\User;
-use Firebase\JWT\JWT;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -29,15 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Auth::viaRequest('custom-token', function (Request $request) {
-            if (!$request->hasHeader('Authorization')) {
-                return null;
-            }
-            $authorizationHeader = $request->header('Authorization');
-            $token  = str_replace('Bearer ', '', $authorizationHeader);
-            $dadosAutenticacao = JWT::decode($token, env('JWT_KEY'), ['HS256']);
-
-            return User::where('email', $dadosAutenticacao->email)->first();
-        });
+        //
     }
 }
