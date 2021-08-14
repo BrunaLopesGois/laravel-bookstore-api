@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // Rotas de visuação de produto, sem necessidade de autenticação
 Route::prefix('/books')->group(function () {
     Route::get('/', [BookController::class, 'index']);
@@ -28,7 +24,10 @@ Route::prefix('/books')->group(function () {
 });
 
 // Rotas autenticadas
-Route::group(['middleware' => 'jwt.auth'], function () {
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     Route::prefix('/books')->group(function () {
         Route::post('/', [BookController::class, 'store']);
         Route::delete('/{id}', [BookController::class, 'destroy']);
