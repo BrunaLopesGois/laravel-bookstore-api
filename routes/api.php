@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,10 +25,8 @@ Route::prefix('/books')->group(function () {
 });
 
 // Rotas autenticadas
-Route::middleware('auth:api')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::middleware('jwt.auth')->group(function () {
+    Route::get('/user', [UserController::class, 'show']);
     Route::prefix('/books')->group(function () {
         Route::post('/', [BookController::class, 'store']);
         Route::delete('/{id}', [BookController::class, 'destroy']);
