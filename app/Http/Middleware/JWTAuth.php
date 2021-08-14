@@ -36,7 +36,7 @@ class JWTAuth
 
             return $next($request);
         } catch (\Exception $e) {
-            return response()->json('Não autorizado');
+            return response()->json('Unauthenticated', 401);
         }
     }
 }
