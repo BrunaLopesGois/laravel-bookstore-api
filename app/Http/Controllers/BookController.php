@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Repositories\BookRepositoryEloquent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class BookController extends Controller
 {
@@ -34,6 +36,11 @@ class BookController extends Controller
             'description' => 'required',
             'sale_price' => 'required'
         ]);
+
+        if (!Gate::forUser(Auth::guard('api')->user())->allows('can-administrate')) {
+            return response()->json('Unauthorized', 403);
+        }
+
         $cover = null;
         if ($request->hasFile('image')) {
             $cover = $request->file('image')->storeAs('/storage/book', $request->file('image')->getClientOriginalName());
@@ -51,6 +58,10 @@ class BookController extends Controller
 
     public function destroy(int $id, BookRepositoryEloquent $repository)
     {
+        if (!Gate::forUser(Auth::guard('api')->user())->allows('can-administrate')) {
+            return response()->json('Unauthorized', 403);
+        }
+
         $response = $repository->delete($id);
 
         return response()->json($response['message'], $response['statusCode']);
@@ -64,6 +75,10 @@ class BookController extends Controller
             'description' => 'required',
             'sale_price' => 'required'
         ]);
+
+        if (!Gate::forUser(Auth::guard('api')->user())->allows('can-administrate')) {
+            return response()->json('Unauthorized', 403);
+        }
 
         $cover = null;
         if ($request->hasFile('image')) {

@@ -39,5 +39,9 @@ class AuthServiceProvider extends ServiceProvider
 
             return User::where('email', $dadosAutenticacao->email)->first();
         });
+
+        Gate::define('can-administrate', function (User $user) {
+            return $user->profile == 'admin';
+        });
     }
 }
