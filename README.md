@@ -1,6 +1,6 @@
 # Laravel Bookstore API
 
-Projeto de uma API Rest, para ser consumida pela aplicação Vue Bookstore, simulando uma livraria online.
+Projeto de uma API Rest, para ser consumida pela aplicação Vue Bookstore (disponível no meu github), simulando uma livraria online.
 
 ## Como configurar em ambiente local:
 
@@ -25,10 +25,12 @@ Existem dois níveis de acesso na aplicação, a seguir as credenciais para real
 
 ### Administrador
 email: admin@example.com
+
 password: admin
 
 ### Cliente
 email: client@example.com
+
 password: client
 
 Exemplo de rota:
