@@ -71,8 +71,11 @@ class BookRepositoryEloquent implements BookRepositoryInterface
             return null;
         }
 
+        if ($cover) {
+            $book->cover = $cover;
+        }
+
         $book->title = $title;
-        $book->cover = $cover;
         $book->genre = $genre;
         $book->description = $description;
         $book->sale_price = $salePrice;
