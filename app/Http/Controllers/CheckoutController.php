@@ -26,7 +26,9 @@ class CheckoutController extends Controller
         }
 
         if ($request->mailtrap_user) {
-            $sendTo = $request->mailtrap_user;
+            putenv("MAIL_USERNAME={$request->mailtrap_user}");
+            putenv("MAIL_PASSWORD={$request->mailtrap_password}");
+            $sendTo = "someone@somewhere.com";
             $mailContent = [
                 'title' => 'Compra realizada com sucesso',
                 'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
