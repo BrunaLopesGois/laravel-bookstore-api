@@ -2,6 +2,51 @@
 
 Projeto de uma API Rest, para ser consumida pela aplicação Vue Bookstore (disponível no meu github), simulando uma livraria online.
 
+## Endpoints em produção:
+
+**Listar livros:** GET https://laravel-bookstore-api.herokuapp.com/api/books
+
+**Livro por ID:** GET https://laravel-bookstore-api.herokuapp.com/api/books/{id}
+
+**Livro por nome:** GET https://laravel-bookstore-api.herokuapp.com/api/books?search={termo}
+
+**Incluir livro:** POST https://laravel-bookstore-api.herokuapp.com/api/books (body params abaixo)
+
+**Atualizar livro:** PUT https://laravel-bookstore-api.herokuapp.com/api/books/{id} (body params abaixo)
+
+**Excluir livro:** DELETE https://laravel-bookstore-api.herokuapp.com/api/books/{id}
+
+**Comprar livro:** POST https://laravel-bookstore-api.herokuapp.com/api/checkout/books/{id} (body params abaixo)
+
+**Login(gerar token):** POST https://laravel-bookstore-api.herokuapp.com/api/login
+
+**Dados do usuário:** GET https://laravel-bookstore-api.herokuapp.com/api/user
+
+### Corpos das requisições:
+
+**Incluir/atualizar livro:**
+```
+{
+    "title": "Titulo",
+    "cover": "Endereço do arquivo de capa" (opcional), 
+    "genre": "Genero",
+    "description": "Descricao",
+    "sale_price": 99.99
+}
+
+```
+
+**Comprar livro:**
+```
+{
+    "numero_do_cartao": 1234123412341234,
+    "nome_do_titular": "John Doe",
+    "data_de_expiracao": "01/01/2030",
+    "cvv": 123
+}
+
+```
+
 ## Como configurar em ambiente local:
 
 - git clone https://github.com/brunalopesgois/laravel-bookstore-api.git
