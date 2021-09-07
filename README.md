@@ -39,9 +39,9 @@ Projeto de uma API Rest, para ser consumida pela aplicação Vue Bookstore (disp
 **Comprar livro:**
 ```
 {
-    "numero_do_cartao": 1234123412341234,
-    "nome_do_titular": "John Doe",
-    "data_de_expiracao": "01/01/2030",
+    "card_number": 1234123412341234,
+    "owner_name": "John Doe",
+    "expiration_date": "01/01/2030",
     "cvv": 123
 }
 
