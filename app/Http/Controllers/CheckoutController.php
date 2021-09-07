@@ -25,13 +25,17 @@ class CheckoutController extends Controller
             return response()->json('Livro não encontrado', 404);
         }
 
-        $sendTo = env('SEND_MAIL_ADDRESS');
-        $mailContent = [
-            'title' => 'Compra realizada com sucesso',
-            'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
-        ];
+        if ($request->mailtrap_user) {
+            putenv("MAIL_USERNAME={$request->mailtrap_user}");
+            putenv("MAIL_PASSWORD={$request->mailtrap_password}");
+            $sendTo = "someone@somewhere.com";
+            $mailContent = [
+                'title' => 'Compra realizada com sucesso',
+                'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
+            ];
 
-        SendMailJob::dispatch($sendTo, $mailContent);
+            SendMailJob::dispatch($sendTo, $mailContent);
+        }
 
         return response()->json('', 202);
     }
