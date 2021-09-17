@@ -6,6 +6,7 @@ use App\Jobs\SendMailJob;
 use App\Repositories\BookRepositoryEloquent;
 use Illuminate\Http\Request;
 use App\Mail\CheckoutMail;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -25,14 +26,18 @@ class CheckoutController extends Controller
             return response()->json('Livro não encontrado', 404);
         }
 
-        if ($request->mailtrap_user) {
-            $sendTo = $request->mailtrap_user;
+        // TODO: As filas não estão funcionando no Heroku.
+        if ($request->mail) {
+            $sendTo = $request->mail;
             $mailContent = [
                 'title' => 'Compra realizada com sucesso',
                 'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
             ];
 
-            SendMailJob::dispatch($sendTo, $mailContent);
+            $email = new CheckoutMail($mailContent);
+            Mail::to($sendTo)->send($email);
+
+            // SendMailJob::dispatch($sendTo, $mailContent);
         }
 
         return response()->json('', 202);
