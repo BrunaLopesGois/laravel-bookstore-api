@@ -28,14 +28,20 @@ class CheckoutController extends Controller
 
         // TODO: As filas não estão funcionando no Heroku.
         if ($request->mail) {
-            $sendTo = $request->mail;
-            $mailContent = [
-                'title' => 'Compra realizada com sucesso',
-                'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
-            ];
+            try {
+                $sendTo = $request->mail;
+                $mailContent = [
+                    'title' => 'Compra realizada com sucesso',
+                    'body' => "Você acaba de adquirir um exemplar do livro **$book->title**"
+                ];
 
-            $email = new CheckoutMail($mailContent);
-            Mail::to($sendTo)->send($email);
+                $email = new CheckoutMail($mailContent);
+                Mail::to($sendTo)->send($email);
+
+                return response()->json('', 202);
+            } catch (\Exception $e) {
+                return response($e->getMessage(), 500);
+            }
 
             // SendMailJob::dispatch($sendTo, $mailContent);
         }
