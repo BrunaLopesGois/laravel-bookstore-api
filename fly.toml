@@ -19,6 +19,16 @@ console_command = 'php /var/www/html/artisan tinker'
   LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
   SESSION_DRIVER = 'cookie'
   SESSION_SECURE_COOKIE = 'true'
+  APP_URL = 'https://laravel-bookstore-api.fly.dev/'
+  DB_CONNECTION = 'sqlite'
+  MAIL_ENCRYPTION = 'tls'
+  MAIL_FROM_ADDRESS = 'livrariabclaravelproject@gmail.com'
+  MAIL_FROM_NAME = 'Livraria ABC'
+  MAIL_HOST = 'smtp.gmail.com'
+  MAIL_MAILER = 'smtp'
+  MAIL_PORT = '587'
+  MAIL_USERNAME = 'livrariabclaravelproject@gmail.com'
+  QUEUE_CONNECTION = 'database'
 
 [http_service]
   internal_port = 8080
